@@ -2,9 +2,9 @@
 #include <sstream>
 #include <string.h>
 #include <stack>
-#define TAM_COMBO 10
+#define COMBO_SIZE 10
 
-void OrdenarCombo(Gtk::ComboBoxText *combo){
+void ReverseCombo(Gtk::ComboBoxText *combo){
 	std::stack<Glib::ustring> optns;
 	Glib::ustring optn;
 	while (combo->get_active_row_number() != -1){
@@ -28,7 +28,7 @@ class Combo: public Gtk::ComboBoxText{
 };
 
 Combo::Combo():
-tam(TAM_COMBO){
+tam(COMBO_SIZE){
 	for (int i = 0; i < tam; i++){
 		std::stringstream s;
 		s << i;
@@ -49,11 +49,10 @@ class Window : public Gtk::Window{
 
 Window::Window():
 box(Gtk::ORIENTATION_VERTICAL),
-btn("INVERTIR COMBO"){
+btn("REVERSE COMBO"){
 	add(box);
 	
-	//btn.signal_clicked().connect(sigc::mem_fun(combo, &Combo::InvertirCombo));
-	btn.signal_clicked().connect(sigc::bind(sigc::ptr_fun(&OrdenarCombo), &combo));
+	btn.signal_clicked().connect(sigc::bind(sigc::ptr_fun(&ReverseCombo), &combo));
 	box.pack_start(combo);
 	box.pack_start(btn);
 	
